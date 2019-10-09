@@ -1,25 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
+import Search from './Search'
+
 function App() {
+  const [images, setImages] = useState([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Search onSelect={(previewURL) => setImages([...images, previewURL])} />
+      {images ? images.map((image) => {
+        return <img src={image} />
+      }
+      ) : null}
     </div>
+
   );
 }
 
