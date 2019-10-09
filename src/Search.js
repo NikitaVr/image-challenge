@@ -44,7 +44,7 @@ export default function Search(props) {
 
     return (
         <div>
-            <Button variant="contained" color="primary" onClick={handleClickOpen} style={{ position: "absolute", bottom: "2em", right: "2em" }}>
+            <Button variant="contained" color="primary" onClick={handleClickOpen} style={{ position: "fixed", bottom: "2em", right: "2em" }}>
                 Add
       </Button>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title"
