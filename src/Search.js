@@ -7,8 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
+import _ from 'underscore'
 
 import getImages from './services/pixabay'
 
@@ -16,8 +15,8 @@ export default function Search(props) {
     const [open, setOpen] = useState(false);
     const [images, setImages] = useState(null);
 
-    async function search() {
-        const result = await getImages();
+    async function search(query) {
+        const result = await getImages(query);
         setImages(result.hits)
     }
 
@@ -26,8 +25,12 @@ export default function Search(props) {
         props.onSelect(previewURL)
     }
 
+    var debounceSearch = _.debounce(function (event) {
+        search(event.target.value);
+    }, 1000);
+
     useEffect(() => {
-        search()
+        //search()
         // do we need to cleanup the event listener here of useEffect?
     }, []); // runs only once at start since we passed []
 
@@ -60,6 +63,7 @@ export default function Search(props) {
                         label="Search"
                         type="search"
                         fullWidth
+                        onChange={(event) => { event.persist(); debounceSearch(event) }}
                     />
                     {images ? images.map((image) => {
                         return <img src={image.previewURL} onClick={() => selectImage(image.previewURL)} />
